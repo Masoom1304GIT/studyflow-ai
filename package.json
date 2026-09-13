@@ -1,0 +1,17 @@
+{
+  "name": "studyflow-ai",
+  "version": "1.0.0",
+  "description": "StudyFlow AI - Turn lectures into revision-ready study packs",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "build": "npm --prefix client run build && node server/scripts/generateSamplePdfs.js",
+    "dev:server": "node --watch server/server.js",
+    "dev:client": "npm --prefix client run dev",
+    "install:all": "npm install && npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": ["student-productivity", "lecture-revision", "ai", "study-packs", "mcq-quiz"],
+  "author": "StudyFlow AI Team",
+  "license": "MIT"
+}

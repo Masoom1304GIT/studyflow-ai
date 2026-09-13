@@ -1,0 +1,165 @@
+/* Processing Screen */
+.processing-container {
+  max-width: 680px;
+  margin: 40px auto;
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  padding: 44px 36px;
+  text-align: center;
+  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.35s ease-out;
+}
+
+.processing-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent-primary), var(--accent-cyan), transparent);
+  animation: shimmer 2.5s infinite linear;
+}
+
+.processing-header {
+  margin-bottom: 32px;
+}
+
+.processing-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.processing-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Progress bar */
+.progress-track-wrapper {
+  margin-bottom: 36px;
+}
+
+.progress-track {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-cyan));
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease-out;
+}
+
+.progress-percentage {
+  display: flex;
+  justify-content: flex-end;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: #A5B4FC;
+  margin-top: 6px;
+}
+
+/* 5 Steps timeline */
+.steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 440px;
+}
+
+.step-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.step-row.completed {
+  background: rgba(16, 185, 129, 0.06);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+
+.step-row.active {
+  background: rgba(99, 102, 241, 0.1);
+  border-color: rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 16px rgba(99, 102, 241, 0.15);
+}
+
+.step-icon-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+}
+
+.step-row.completed .step-icon-circle {
+  background: var(--accent-emerald);
+  color: #ffffff;
+}
+
+.step-row.active .step-icon-circle {
+  background: var(--accent-primary);
+  color: #ffffff;
+  animation: pulseGlow 1.5s infinite;
+}
+
+.step-text-wrap {
+  flex: 1;
+}
+
+.step-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.step-row.completed .step-name {
+  color: var(--text-primary);
+}
+
+.step-row.active .step-name {
+  color: #A5B4FC;
+}
+
+.step-status-tag {
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}
+
+.step-row.completed .step-status-tag {
+  color: #34D399;
+}
+
+.step-row.active .step-status-tag {
+  color: #818CF8;
+}
+
+.spinner-icon {
+  animation: spin 1s linear infinite;
+}

@@ -1,0 +1,43 @@
+# -- Environment Variables ------------------------------------------------------
+# Never commit real credentials. Use .env.example as the template.
+.env
+.env.*
+!.env.example
+
+# -- Node.js -------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# -- Build / Production Artefacts ----------------------------------------------
+dist/
+build/
+.next/
+out/
+
+# -- Python (if tooling added later) -------------------------------------------
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+# -- OS / Editor Metadata ------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/settings.json
+
+# -- Test / Debug Artefacts ----------------------------------------------------
+server/test-screenshots/
+server/samplePdfs/_test_custom.pdf
+
+# -- Logs ----------------------------------------------------------------------
+*.log
+logs/
