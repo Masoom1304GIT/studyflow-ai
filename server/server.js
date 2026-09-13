@@ -167,8 +167,12 @@ if (fs.existsSync(clientDist)) {
   });
 }
 
-app.listen(PORT, () => {
-  console.log(`========================================`);
-  console.log(`  StudyFlow AI Server running on http://localhost:${PORT}`);
-  console.log(`========================================`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`========================================`);
+    console.log(`  StudyFlow AI Server running on http://localhost:${PORT}`);
+    console.log(`========================================`);
+  });
+}
+
+export default app;
