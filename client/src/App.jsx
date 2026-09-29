@@ -51,8 +51,29 @@ export default function App() {
         body: formData
       });
 
-      const data = await response.json();
-      if (!response.ok || !data.success) {
+      const contentType = response.headers.get('content-type') || '';
+      const rawText = await response.text();
+      console.log('API URL: /api/extract-and-generate');
+      console.log('API STATUS:', response.status);
+      console.log('API CONTENT TYPE:', contentType);
+
+      if (!response.ok) {
+        let errMsg = `API ${response.status}`;
+        try {
+          const parsedErr = JSON.parse(rawText);
+          errMsg = parsedErr.error || errMsg;
+        } catch {
+          errMsg = `${errMsg}: ${rawText.slice(0, 200)}`;
+        }
+        throw new Error(errMsg);
+      }
+
+      if (!contentType.includes('application/json')) {
+        throw new Error(`Expected JSON but received ${contentType}: ${rawText.slice(0, 200)}`);
+      }
+
+      const data = JSON.parse(rawText);
+      if (!data.success) {
         throw new Error(data.error || 'Failed to analyze the lecture PDF.');
       }
 
@@ -87,8 +108,29 @@ export default function App() {
         body: JSON.stringify({ preset })
       });
 
-      const data = await response.json();
-      if (!response.ok || !data.success) {
+      const contentType = response.headers.get('content-type') || '';
+      const rawText = await response.text();
+      console.log('API URL: /api/generate-demo');
+      console.log('API STATUS:', response.status);
+      console.log('API CONTENT TYPE:', contentType);
+
+      if (!response.ok) {
+        let errMsg = `API ${response.status}`;
+        try {
+          const parsedErr = JSON.parse(rawText);
+          errMsg = parsedErr.error || errMsg;
+        } catch {
+          errMsg = `${errMsg}: ${rawText.slice(0, 200)}`;
+        }
+        throw new Error(errMsg);
+      }
+
+      if (!contentType.includes('application/json')) {
+        throw new Error(`Expected JSON but received ${contentType}: ${rawText.slice(0, 200)}`);
+      }
+
+      const data = JSON.parse(rawText);
+      if (!data.success) {
         throw new Error(data.error || 'Failed to load demo study pack.');
       }
 
