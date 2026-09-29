@@ -98,8 +98,8 @@ All AI calls are made server-side using `GEMINI_API_KEY` from the backend enviro
 
 ## How Gemini Is Used
 
-- **Model**: `gemini-1.5-flash`
-- **Endpoint**: `POST https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`
+- **Model**: `gemini-3.6-flash` (configurable via `GEMINI_MODEL`, fallback supported)
+- **Endpoint**: `POST https://generativelanguage.googleapis.com/v1beta/models/{GEMINI_MODEL}:generateContent`
 - **Response MIME**: `application/json` (enforces structured output)
 - **Temperature**: 0.25 (grounded, factual)
 - **Prompt strategy**: Full lecture text with strict grounding instructions — no hallucination. Returns `lectureTitle`, `overview`, `keyDefinitions`, `coreConcepts`, `formulasAndFacts`, `takeaways`, and exactly 5 `practiceQuiz` items.
@@ -254,25 +254,38 @@ studyflow-ai/
 ---
 
 ## Deployment
+ 
+### Deploying to Vercel (Recommended)
 
-### Option A — Single-server (recommended)
+StudyFlow AI is pre-configured for seamless Vercel deployment combining the React/Vite frontend with serverless Node.js API functions (`api/index.js`).
+
+1. **Connect Repository in Vercel**:
+   - Go to your Vercel Dashboard → **Settings** → **Git** on your project.
+   - Connect the repository: `Masoom1304GIT/studyflow-ai` (branch: `main`).
+2. **Project Settings on Vercel**:
+   - **Framework Preset**: `Vite` (or `Other`)
+   - **Root Directory**: `./` (leave default)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `client/dist`
+   - **Install Command**: `npm install`
+3. **Environment Variables**:
+   - In Vercel Project Settings → **Environment Variables**, add:
+     - `GEMINI_API_KEY`: *(Your Google AI Studio API key)*
+     - `GEMINI_MODEL`: `gemini-3.6-flash` (optional, default)
+4. **Trigger Deployment**:
+   - Push to `main` or trigger a deployment via **Deployments** → **Redeploy**.
+
+### Local Production Server
 
 1. Build: `npm run build`
-2. Set `GEMINI_API_KEY` as an environment variable on your host.
-3. Start: `npm start`
-4. Express serves both the API and the React SPA at the same port.
-
-### Option B — Separate services
-
-- Deploy **`server/`** to any Node.js host (Render, Railway, Fly.io)
-- Deploy **`client/dist/`** (static files) to a CDN (Netlify, Vercel, Cloudflare Pages)
-- Configure CORS on the backend and set the API base URL in the frontend
+2. Start: `npm start`
+3. Express serves both the `/api` endpoints and the built React SPA from `client/dist` on port 5000.
 
 ### Security checklist before going live
 
 - [ ] `.env` is in `.gitignore` and not committed
 - [ ] `GEMINI_API_KEY` is a server-side environment variable only
-- [ ] No API keys in frontend source code or in the compiled `dist/` output
+- [ ] No API keys in frontend source code or in the compiled `client/dist/` output
 - [ ] `npm audit` shows no critical vulnerabilities
 
 ---

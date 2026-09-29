@@ -167,7 +167,7 @@ if (fs.existsSync(clientDist)) {
   });
 }
 
-if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+if (process.argv[1] && fileURLToPath(import.meta.url) === path.resolve(process.argv[1])) {
   app.listen(PORT, () => {
     console.log(`========================================`);
     console.log(`  StudyFlow AI Server running on http://localhost:${PORT}`);
