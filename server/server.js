@@ -9,16 +9,20 @@ import { extractPdfContent } from './services/pdfExtractor.js';
 import { generateStudyPack } from './services/aiGenerator.js';
 import { samplePacks } from './data/samplePacks.js';
 
-// Load .env from workspace root or current dir
+// Load .env for local development only.
+// In production (Vercel), env vars are injected by the platform before this
+// module loads. dotenv.config() never overrides pre-existing env vars, so
+// it is safe to call unconditionally — it is simply a no-op on Vercel.
 const rootEnvPath = path.resolve(process.cwd(), '.env');
 const parentEnvPath = path.resolve(process.cwd(), '..', '.env');
 if (fs.existsSync(rootEnvPath)) {
-  dotenv.config({ path: rootEnvPath });
+  dotenv.config({ path: rootEnvPath, override: false });
 } else if (fs.existsSync(parentEnvPath)) {
-  dotenv.config({ path: parentEnvPath });
+  dotenv.config({ path: parentEnvPath, override: false });
 } else {
-  dotenv.config();
+  dotenv.config({ override: false });
 }
+console.log(`[StudyFlow AI] Init — GEMINI_API_KEY present=${Boolean(process.env.GEMINI_API_KEY)}, length=${process.env.GEMINI_API_KEY?.length ?? 0}`);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,10 +54,15 @@ const upload = multer({
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
+  const keyPresent = Boolean(process.env.GEMINI_API_KEY);
+  const keyLength = process.env.GEMINI_API_KEY?.length ?? 0;
+  // Safe to log and return key metadata — never the actual value
+  console.log(`[StudyFlow AI] /api/health — GEMINI_API_KEY present=${keyPresent}, length=${keyLength}`);
   res.json({
     status: 'ok',
     service: 'StudyFlow AI Backend',
-    hasApiKey: Boolean(process.env.GEMINI_API_KEY)
+    hasApiKey: keyPresent,
+    keyLength
   });
 });
 

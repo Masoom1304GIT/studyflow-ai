@@ -575,6 +575,12 @@ ${safeText}
 export async function generateStudyPack({ text, subject = '', fileName = '', userApiKey = '' }) {
   const apiKey = userApiKey || process.env.GEMINI_API_KEY;
 
+  // Safe diagnostic — length only, never the actual key value
+  console.log(
+    `[StudyFlow AI] generateStudyPack — userApiKey=${!!userApiKey}, envKey=${!!process.env.GEMINI_API_KEY}, ` +
+    `combined=${!!apiKey}, keyLength=${apiKey?.length ?? 0}, file="${fileName}"`
+  );
+
   if (apiKey) {
     try {
       console.log(`[StudyFlow AI] Calling Gemini API for "${fileName || 'lecture'}"...`);
