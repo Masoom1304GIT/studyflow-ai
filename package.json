@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server/server.js",
-    "build": "npm --prefix client run build && node server/scripts/generateSamplePdfs.js",
+    "build": "npm --prefix client install && npm --prefix client run build && node server/scripts/generateSamplePdfs.js",
     "dev:server": "node --watch server/server.js",
     "dev:client": "npm --prefix client run dev",
     "install:all": "npm install && npm --prefix server install && npm --prefix client install"
